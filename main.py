@@ -7,6 +7,11 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
+    return "It works"
+
+
+@app.route("/map")
+def map():
     addresses = [
         "Ringstraße 24, 36093 Künzell",
         "Johann-Sebastian-Bach-Straße 18, 36043 Fulda",

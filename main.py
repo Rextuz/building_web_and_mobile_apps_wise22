@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 import sqlite3
 from maps import get_map
 
@@ -8,6 +8,23 @@ def get_db_connection():
     conn = sqlite3.connect('carshare.db')
     conn.row_factory = sqlite3.Row
     return conn
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+
+    name = request.form["name"]  
+    email = request.form["email"]  
+    password = request.form["password"]  
+    isDriver = request.form["isDriver"]
+
+    with sqlite3.connect("carshare.db") as con:  
+        cur = con.cursor()  
+        cur.execute("INSERT into user (name, email, password, isDriver) values (?,?,?,?)",(name,email,password, isDriver))  
+        con.commit()  
+        msg = "User successfully Added"  
+
+    return render_template("index.html",msg = msg)  
 
 
 @app.route("/")

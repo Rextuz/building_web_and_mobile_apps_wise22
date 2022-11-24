@@ -18,5 +18,18 @@
       
     	{% endfor %}  
 	</table>
+
+	<form action = "/register" method="post">  
+    <table>  
+        <tr><td>Name</td><td><input type="text" name="name" value="kri"></td></tr>  
+        <tr><td>Email</td><td><input type="email" name="email" value="kri@gmail.com"></td></tr>  
+        <tr><td>Password</td><td><input type="text" name="password" value="kri"></td></tr>  
+        <tr><td>isDriver</td><td><input type="text" name="isDriver" value="1"></td></tr>  
+       
+        <tr><td><input type="submit" value="Submit"></td></tr>  
+    </table>  
+    </form>  
+
+    <h3>Registration Status: {{msg}}</h3> 
 </body>
 </html>

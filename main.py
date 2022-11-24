@@ -4,20 +4,20 @@ from maps import get_map
 
 app = Flask(__name__)
 
-# def get_db_connection():
-#     conn = sqlite3.connect('carshare.db')
-#     conn.row_factory = sqlite3.Row
-#     return conn
-
-
+def get_db_connection():
+    conn = sqlite3.connect('carshare.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
 @app.route("/")
 def index():
 
-    # conn = get_db_connection()
-
-    return render_template('index.html')
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM user')
+    rows = cur.fetchall()  
+    return render_template('index.html',rows = rows)
 
 
 @app.route("/map")

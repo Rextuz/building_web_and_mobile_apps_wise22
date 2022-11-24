@@ -6,6 +6,17 @@
 	<title>Car Share</title>
 </head>
 <body>
-	<h1> It still works! </h1>
+	<table>
+		{% for row in rows %}  
+      
+        <tr>  
+            <td>{{row["id"]}}</td>  
+            <td>{{row["name"]}}</td>  
+            <td>{{row["email"]}}</td>  
+            
+        </tr>  
+      
+    	{% endfor %}  
+	</table>
 </body>
 </html>

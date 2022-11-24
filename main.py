@@ -1,13 +1,23 @@
-from flask import Flask
-
+from flask import Flask, render_template
+import sqlite3
 from maps import get_map
 
 app = Flask(__name__)
 
+# def get_db_connection():
+#     conn = sqlite3.connect('carshare.db')
+#     conn.row_factory = sqlite3.Row
+#     return conn
+
+
+
 
 @app.route("/")
 def index():
-    return "It works"
+
+    # conn = get_db_connection()
+
+    return render_template('index.html')
 
 
 @app.route("/map")

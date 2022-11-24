@@ -15,7 +15,7 @@ def index():
 
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute('SELECT * FROM user')
+    cur.execute('SELECT * FROM ride_requests')
     rows = cur.fetchall()  
     return render_template('index.html',rows = rows)
 

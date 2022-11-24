@@ -16,11 +16,11 @@ def register():
     name = request.form["name"]  
     email = request.form["email"]  
     password = request.form["password"]  
-    isDriver = request.form["isDriver"]
+    role = request.form["role"]
 
     with sqlite3.connect("carshare.db") as con:  
         cur = con.cursor()  
-        cur.execute("INSERT into user (name, email, password, isDriver) values (?,?,?,?)",(name,email,password, isDriver))  
+        cur.execute("INSERT into user (name, email, password, role) values (?,?,?,?)",(name,email,password, role))  
         con.commit()  
         msg = "User successfully Added"  
 

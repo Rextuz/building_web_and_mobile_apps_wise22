@@ -4,10 +4,6 @@ from maps import get_map
 
 app = Flask(__name__)
 
-def get_db_connection():
-    conn = sqlite3.connect('carshare.db')
-    conn.row_factory = sqlite3.Row
-    return conn
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -39,7 +35,7 @@ def login():
                 loginMsg = "Logged in successfully"
                 break;
 
-    return render_template("index.html",loginMsg = loginMsg)  
+    return render_template("home.html",loginMsg = loginMsg)  
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -57,6 +53,10 @@ def register():
 
     return render_template("index.html",msg = msg)  
 
+def get_db_connection():
+    conn = sqlite3.connect('carshare.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.route("/")
 def index():

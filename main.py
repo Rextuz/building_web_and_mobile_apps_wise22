@@ -14,14 +14,14 @@ def login():
     loginMsg = "Error in logging in" 
     with sqlite3.connect("carshare.db") as con:  
         cur = con.cursor()  
-        cur.execute("SELECT email, password FROM user;")  
+        cur.execute("SELECT * FROM user;")  
         rows = cur.fetchall()  
 
         print(rows)
 
         for row in rows:
-            emailVal = row[0]
-            passwordVal = row[1]
+            emailVal = row[2]
+            passwordVal = row[3]
             print(emailVal)
 
             count = 0
@@ -32,10 +32,12 @@ def login():
                 count = count + 1
 
             if count == 2:
+                idVal = row[0]
+                roleVal = row[4]
                 loginMsg = "Logged in successfully"
                 break;
 
-    return render_template("home.html",loginMsg = loginMsg)  
+    return render_template("home.html",loginMsg = loginMsg, user_id = idVal, role = roleVal)  
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():

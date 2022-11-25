@@ -9,6 +9,37 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+ 
+    email = request.form["email"]  
+    password = request.form["password"]  
+
+    loginMsg = "Error in logging in" 
+    with sqlite3.connect("carshare.db") as con:  
+        cur = con.cursor()  
+        cur.execute("SELECT email, password FROM user;")  
+        rows = cur.fetchall()  
+
+        print(rows)
+
+        for row in rows:
+            emailVal = row[0]
+            passwordVal = row[1]
+            print(emailVal)
+
+            count = 0
+
+            if emailVal == email:
+                count = count + 1
+            if passwordVal == password:
+                count = count + 1
+
+            if count == 2:
+                loginMsg = "Logged in successfully"
+                break;
+
+    return render_template("index.html",loginMsg = loginMsg)  
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -32,8 +63,9 @@ def index():
 
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute('SELECT * FROM ride_requests')
+    cur.execute('SELECT * FROM user;')
     rows = cur.fetchall()  
+   
     return render_template('index.html',rows = rows)
 
 

@@ -32,7 +32,18 @@
         <tr><td><input type="submit" value="Submit"></td></tr>  
     </table>  
     </form>  
-
     <h3>Registration Status: {{msg}}</h3> 
+
+    <form action = "/login" method="post">  
+    <table>  
+        
+        <tr><td>Email</td><td><input type="email" name="email" value="kri@gmail.com"></td></tr>  
+        <tr><td>Password</td><td><input type="text" name="password" value="kri"></td></tr>  
+       
+        <tr><td><input type="submit" value="Submit"></td></tr>  
+    </table>  
+    </form>  
+	<h3>Login Status: {{loginMsg}}</h3> 
+    
 </body>
 </html>

@@ -4,6 +4,33 @@ from maps import get_map
 
 app = Flask(__name__)
 
+@app.route("/home", methods=['GET', 'POST'])
+def home():
+
+    user_id = request.form["user"]
+    pick_up_location = request.form["pick_up_location"]
+
+    with sqlite3.connect("carshare.db") as con:
+        cur = con.cursor()
+        cur.execute("INSERT into ride_requests (user_id, pick_up_location) values (?,?)", (user_id, pick_up_location,))
+        con.commit()
+        msg = "Request successfully Added"
+
+    return render_template("requests.html", msg = msg)
+
+@app.route("/requests")
+def requests():
+    con = sqlite3.connect("carshare.db")
+    con.row_factory = sqlite3.Row
+
+    cur = con.cursor()
+    cur.execute("select * from ride_requests")
+
+    rows = cur.fetchall()
+    for row in rows:
+        print(rows)
+
+    return render_template("requests.html", rows = rows)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -34,10 +61,11 @@ def login():
             if count == 2:
                 idVal = row[0]
                 roleVal = row[4]
+                nameVal = row[1]
                 loginMsg = "Logged in successfully"
                 break;
 
-    return render_template("home.html",loginMsg = loginMsg, user_id = idVal, role = roleVal)  
+    return render_template("home.html",loginMsg = loginMsg, user_id = idVal, role = roleVal, name = nameVal)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -60,6 +88,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+
 @app.route("/")
 def index():
 
@@ -69,7 +98,6 @@ def index():
     rows = cur.fetchall()  
    
     return render_template('index.html',rows = rows)
-
 
 @app.route("/map")
 def map():

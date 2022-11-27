@@ -2,6 +2,7 @@ import folium
 import requests
 import pandas as pd
 from geopy import Nominatim
+from geopy.distance import geodesic
 
 
 def create_map(responses, lat_lons):
@@ -48,6 +49,20 @@ def get_lat_long_from_address(address):
     locator = Nominatim(user_agent="myGeocoder")
     location = locator.geocode(address)
     return location.latitude, location.longitude
+
+
+def distance(address0, address1):
+    coord0 = get_lat_long_from_address(address0)
+    coord1 = get_lat_long_from_address(address1)
+    return geodesic(coord0, coord1).miles
+
+
+def sort(*waypoints, target):
+    address_to_distance = {}
+    for waypoint in set(waypoints):
+        address_to_distance[waypoint] = distance(waypoint, target)
+    sorted_addresses = dict(sorted(address_to_distance.items(), key=lambda x: x[1]))
+    return list(sorted_addresses.keys())
 
 
 def get_map(addresses):

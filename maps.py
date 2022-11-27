@@ -2,6 +2,7 @@ import folium
 import requests
 import pandas as pd
 from geopy import Nominatim
+from geopy.distance import geodesic
 
 
 def create_map(responses, lat_lons):
@@ -17,7 +18,9 @@ def create_map(responses, lat_lons):
 
         # add the lines
         folium.PolyLine(points, weight=5, opacity=1).add_to(m)
-        temp = pd.DataFrame(mls[0]).rename(columns={0: "Lon", 1: "Lat"})[["Lat", "Lon"]]
+        temp = pd.DataFrame(mls[0]).rename(columns={0: "Lon", 1: "Lat"})[
+            ["Lat", "Lon"]
+        ]
         df = pd.concat([df, temp])
     # create optimal zoom
     sw = df[["Lat", "Lon"]].min().values.tolist()
@@ -48,6 +51,20 @@ def get_lat_long_from_address(address):
     return location.latitude, location.longitude
 
 
+def distance(address0, address1):
+    coord0 = get_lat_long_from_address(address0)
+    coord1 = get_lat_long_from_address(address1)
+    return geodesic(coord0, coord1).miles
+
+
+def sort(*waypoints, target):
+    address_to_distance = {}
+    for waypoint in set(waypoints):
+        address_to_distance[waypoint] = distance(waypoint, target)
+    sorted_addresses = dict(sorted(address_to_distance.items(), key=lambda x: x[1]))
+    return list(sorted_addresses.keys())
+
+
 def get_map(addresses):
     lat_lons = [get_lat_long_from_address(addr) for addr in addresses]
     responses = []
@@ -58,6 +75,8 @@ def get_map(addresses):
             lat_lons[n + 1][0],
             lat_lons[n + 1][1],
         )
-        response = get_directions_response(lat1, lon1, lat2, lon2, mode="drive")
+        response = get_directions_response(
+            lat1, lon1, lat2, lon2, mode="drive"
+        )
         responses.append(response)
     return create_map(responses, lat_lons)

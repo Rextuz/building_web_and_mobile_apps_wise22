@@ -17,7 +17,9 @@ def create_map(responses, lat_lons):
 
         # add the lines
         folium.PolyLine(points, weight=5, opacity=1).add_to(m)
-        temp = pd.DataFrame(mls[0]).rename(columns={0: "Lon", 1: "Lat"})[["Lat", "Lon"]]
+        temp = pd.DataFrame(mls[0]).rename(columns={0: "Lon", 1: "Lat"})[
+            ["Lat", "Lon"]
+        ]
         df = pd.concat([df, temp])
     # create optimal zoom
     sw = df[["Lat", "Lon"]].min().values.tolist()
@@ -58,6 +60,8 @@ def get_map(addresses):
             lat_lons[n + 1][0],
             lat_lons[n + 1][1],
         )
-        response = get_directions_response(lat1, lon1, lat2, lon2, mode="drive")
+        response = get_directions_response(
+            lat1, lon1, lat2, lon2, mode="drive"
+        )
         responses.append(response)
     return create_map(responses, lat_lons)

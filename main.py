@@ -12,25 +12,26 @@ def home():
 
     with sqlite3.connect("carshare.db") as con:
         cur = con.cursor()
-        cur.execute("INSERT into ride_requests (user_id, pick_up_location) values (?,?)", (user_id, pick_up_location,))
+        cur.execute("INSERT into ride_requests (user_id, pick_up_location) values (?,?)", (user_id, pick_up_location))
         con.commit()
         msg = "Request successfully Added"
 
     return render_template("requests.html", msg = msg)
 
-@app.route("/requests")
+@app.route("/requests", methods=['GET', 'POST'])
 def requests():
+
+    print("hi!!!!!!!!!!!")
+
     con = sqlite3.connect("carshare.db")
     con.row_factory = sqlite3.Row
 
     cur = con.cursor()
-    cur.execute("select * from ride_requests")
+    cur.execute("SELECT * FROM ride_requests;")
 
     rows = cur.fetchall()
-    for row in rows:
-        print(rows)
 
-    return render_template("requests.html", rows = rows)
+    return render_template("requests.html", rows=rows)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -43,8 +44,6 @@ def login():
         cur = con.cursor()  
         cur.execute("SELECT * FROM user;")  
         rows = cur.fetchall()  
-
-        print(rows)
 
         for row in rows:
             emailVal = row[2]

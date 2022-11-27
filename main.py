@@ -21,8 +21,6 @@ def home():
 @app.route("/requests", methods=['GET', 'POST'])
 def requests():
 
-    print("hi!!!!!!!!!!!")
-
     con = sqlite3.connect("carshare.db")
     con.row_factory = sqlite3.Row
 
@@ -30,6 +28,9 @@ def requests():
     cur.execute("SELECT * FROM ride_requests;")
 
     rows = cur.fetchall()
+
+    response = [dict(row) for row in rows]
+    print(response)
 
     return render_template("requests.html", rows=rows)
 
@@ -74,29 +75,18 @@ def register():
     password = request.form["password"]  
     role = request.form["role"]
 
-    with sqlite3.connect("carshare.db") as con:  
+    with sqlite3.connect("carshare.db") as con:
         cur = con.cursor()  
         cur.execute("INSERT into user (name, email, password, role) values (?,?,?,?)",(name,email,password, role))  
         con.commit()  
-        msg = "User successfully Added"  
+    msg = "User successfully Added"  
 
     return render_template("index.html",msg = msg)  
 
-def get_db_connection():
-    conn = sqlite3.connect('carshare.db')
-    conn.row_factory = sqlite3.Row
-    return conn
-
 
 @app.route("/")
-def index():
-
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM user;')
-    rows = cur.fetchall()  
-   
-    return render_template('index.html',rows = rows)
+def index(): 
+    return render_template("index.html")
 
 @app.route("/map")
 def map():

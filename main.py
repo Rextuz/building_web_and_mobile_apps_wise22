@@ -1,8 +1,5 @@
-import io
-import os
 import random
 
-from PIL import Image
 from flask import Flask, render_template, request
 import sqlite3
 from maps import get_map, sort
@@ -147,7 +144,11 @@ def plot_route():
         for ride_request in ride_requests
         if ride_request["user_id"] in passengers_ids
     ]
-    addresses = [start_address, *sort(*waypoints, target=start_address), target_address]
+    addresses = [
+        start_address,
+        *sort(*waypoints, target=start_address)[:4],
+        target_address,
+    ]
     m = get_map(addresses)
     return m._repr_html_()
 

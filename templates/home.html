@@ -6,20 +6,14 @@
 	<title>Home Page</title>
 </head>
 <body>
-<form action = "/requests" method="post">
+<form action = "/home" method="post">
     <table>
         <tr><td>User</td><td><input type="text" name="user" value="{{user_id}}"></td></tr>
         <tr><td>Name</td><td><input type="text" name="name" value="{{name}}"></td></tr>
         <tr><td>Role</td><td><input type="text" name="role" value="{{role}}"></td></tr>
-        <tr><td>Pick up location</td><td><select name="pick_up_location">
-			    <option value="Ringstraße 24, 36093 Künzell">Ringstraße 24, 36093 Künzell</option>
-			    <option value="Johann-Sebastian-Bach-Straße 18, 36043 Fulda">Johann-Sebastian-Bach-Straße 18, 36043 Fulda</option>
-                <option value="Werner-Schmid-Str.18, 36041 Fulda">Werner-Schmid-Str.18, 36041 Fulda</option>
-			  </select></td></tr>
-
+        <tr><td>Pick up location</td><td><input type="text" name="pick_up_location" value="Ringstraße 24, 36093 Künzell"></td></tr>
         <tr><td><input type="submit" value="Submit"></td></tr>
     </table>
     </form>
-
 </body>
 </html>

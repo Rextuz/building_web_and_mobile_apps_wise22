@@ -9,7 +9,7 @@ DB = "carshare.db"
 app = Flask(__name__)
 
 
-@app.route("/home", methods=["GET", "POST"])
+@app.route("/home", methods=["POST"])
 def home():
 
     user_id = request.form["user"]
@@ -24,7 +24,7 @@ def home():
         con.commit()
         msg = "Request successfully Added"
 
-    return render_template("requests.html", msg=msg)
+    return render_template("requests.html", msg=msg, rows=_get_ride_requests())
 
 
 def _get_users(user_ids, role):
@@ -52,12 +52,12 @@ def _get_ride_requests():
     return [dict(row) for row in rows]
 
 
-@app.route("/requests", methods=["GET", "POST"])
+@app.route("/requests", methods=["GET"])
 def requests():
     return render_template("requests.html", rows=_get_ride_requests())
 
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["POST"])
 def login():
 
     email = request.form["email"]
@@ -97,7 +97,7 @@ def login():
     )
 
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register", methods=["POST"])
 def register():
 
     name = request.form["name"]
@@ -124,6 +124,7 @@ def index():
 
 @app.route("/plot_route")
 def plot_route():
+    driver = request.args.get("driver", default='', type=str)
     ride_requests = _get_ride_requests()
     active_users = set(
         [ride_request["user_id"] for ride_request in ride_requests]
@@ -132,11 +133,21 @@ def plot_route():
     passengers_ids = [
         p["id"] for p in _get_users(active_users, role="PASSENGER")
     ]
-    your_driver = random.choice(drivers)["id"]
+    if not driver:
+        your_driver = random.choice(drivers)["id"]
+    else:
+        your_driver = None
+        for d in drivers:
+            if driver.lower() in d["name"].lower():
+                your_driver = d["id"]
+                break
+        if your_driver is None:
+            return "No such driver"
+
     start_address = next(
-        driver["pick_up_location"]
-        for driver in ride_requests
-        if driver["user_id"] == your_driver
+        d["pick_up_location"]
+        for d in ride_requests
+        if d["user_id"] == your_driver
     )
     target_address = "Leipziger Str. 123, 36037 Fulda"
     waypoints = [

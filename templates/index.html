@@ -19,36 +19,49 @@
     	{% endfor %}
 	</table>
 
-	<form action = "/register" method="post">  
+	<form action = "/register" method="post">
     <table>
         <tr><td>Name</td><td><input type="text" name="name" value="kri"></td></tr>
-        <tr><td>Email</td><td><input type="email" name="email" value="kri@gmail.com"></td></tr>  
-        <tr><td>Password</td><td><input type="text" name="password" value="kri"></td></tr>  
+        <tr><td>Email</td><td><input type="email" name="email" value="kri@gmail.com"></td></tr>
+        <tr><td>Password</td><td><input type="text" name="password" value="kri"></td></tr>
         <tr><td>Role</td><td><select name="role">
 			    <option value="DRIVER">Driver</option>
 			    <option value="PASSENGER">Passenger</option>
-			  </select></td></tr>  
-       
-        <tr><td><input type="submit" value="Submit"></td></tr>  
-    </table>  
-    </form>  
-    <h3>Registration Status: {{msg}}</h3> 
+			  </select></td></tr>
 
-    <form action = "/login" method="post">  
-    <table>  
-        
-        <tr><td>Email</td><td><input type="email" name="email" value="kri@gmail.com"></td></tr>  
-        <tr><td>Password</td><td><input type="text" name="password" value="kri"></td></tr>  
-       
-        <tr><td><input type="submit" value="Submit"></td></tr>  
-    </table>  
+        <tr><td><input type="submit" value="Submit"></td></tr>
+    </table>
+    </form>
+    <h3>Registration Status: {{msg}}</h3>
+
+    <form action="/login" method="post">
+    <table>
+
+        <tr><td>Email</td><td><input type="email" name="email" value="kri@gmail.com"></td></tr>
+        <tr><td>Password</td><td><input type="text" name="password" value="kri"></td></tr>
+
+        <tr><td><input type="submit" value="Submit"></td></tr>
+    </table>
     </form>
     <br>
 
-    <a href="/plot_route">
-        <input type="button" value="Show route">
-    </a>
     <h3>Login Status: {{loginMsg}}</h3>
-    
+
+    <br><br><br>
+    <form action="/requests" method="get">
+        <table>
+            <tr><td><input type="submit" value="Show ride_requests"></td></tr>
+        </table>
+    </form>
+
+
+    <br><br><br>
+    <form action="/plot_route" method="get">
+        <table>
+        <tr><td>Driver</td><td><input type="text" name="driver" value=""></td></tr>
+        <tr><td><input type="submit" value="Show route"></td></tr>
+        </table>
+    </form>
+
 </body>
 </html>

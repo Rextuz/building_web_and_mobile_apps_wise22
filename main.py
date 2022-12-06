@@ -63,6 +63,7 @@ def login():
     email = request.form["email"]
     password = request.form["password"]
 
+    logged_in = False
     loginMsg = "Error in logging in"
     with sqlite3.connect(DB) as con:
         cur = con.cursor()
@@ -86,7 +87,11 @@ def login():
                 roleVal = row[4]
                 nameVal = row[1]
                 loginMsg = "Logged in successfully"
+                logged_in = True
                 break
+
+    if not logged_in:
+        return "No such user"
 
     return render_template(
         "home.html",

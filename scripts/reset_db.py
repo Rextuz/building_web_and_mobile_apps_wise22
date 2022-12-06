@@ -74,7 +74,10 @@ def add_users():
 
 
 if __name__ == "__main__":
-    os.unlink(DB)
+    try:
+        os.unlink(DB)
+    except FileNotFoundError:
+        pass
     with sqlite3.connect(DB) as con:
         cur = con.cursor()
         cur.execute(""" CREATE TABLE IF NOT EXISTS user (

@@ -1,4 +1,6 @@
 /.idea/*
+/cache/*
+*.db
 __pycache__
 Pipfile.lock
 rapidapi_token.txt

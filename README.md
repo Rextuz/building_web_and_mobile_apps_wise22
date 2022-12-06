@@ -5,6 +5,7 @@ Python 3.10
 
 Run these commands from the root folder of the repository:
 ```
-pip install -r requirements.txt
-python main.py
+$ pip install -r requirements.txt
+$ python scripts/reset_db.py
+$ python main.py
 ```
